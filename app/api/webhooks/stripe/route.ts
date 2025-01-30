@@ -12,12 +12,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 
 export async function POST(req: Request) {
   const body = await req.text();
-  const signature = headers().get("Stripe-Signature") as string;
+  
+  // Await the headers() promise before calling .get()
+  const headerValue = await headers();
+  const signature = headerValue.get("Stripe-Signature") as string;
 
   if (!signature) {
     console.error("No Stripe signature found");
     return NextResponse.json({ error: "No Stripe signature" }, { status: 400 });
   }
+
 
   let event: Stripe.Event;
 

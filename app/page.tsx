@@ -15,8 +15,9 @@ import { auth } from "@clerk/nextjs/server";
 import { SignUpButton } from "@clerk/nextjs";
 import { Navbar } from "@/components/Navbar";
 
-export default function Home() {
-  const { userId } = auth();
+export default async function Home() {
+  const { userId } = await auth(); // Await the auth() function
+
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-black to-gray-900 text-gray-100 overflow-hidden pt-20">
@@ -49,7 +50,7 @@ export default function Home() {
               asChild
               className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-full text-lg transition duration-300 ease-in-out transform hover:scale-105"
             >
-              <Link href="/generate">Start Creating</Link>
+              <Link href="/genrate">Start Creating</Link>
             </Button>
             <Button
               asChild
@@ -105,34 +106,35 @@ export default function Home() {
         </div>
 
         {/* Benefits Section */}
+        
         <div className="py-20 bg-gray-900 rounded-3xl my-20 relative">
           <div className="absolute top-0 left-0 w-full h-full overflow-hidden rounded-3xl">
             <svg
               className="absolute w-full h-full"
               viewBox="0 0 100 100"
               preserveAspectRatio="none"
+              xmlns="http://www.w3.org/2000/svg"
             >
-              <path
-                d="M0,0 L100,0 L100,100 L0,100 Z"
-                fill="url(#grid-pattern)"
-              />
+              <defs>
+                <pattern
+                  id="grid-pattern"
+                  width="10"
+                  height="10"
+                  patternUnits="userSpaceOnUse"
+                >
+                  <path
+                    d="M 10 0 L 0 0 0 10"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.05)"
+                    strokeWidth="0.5"
+                  />
+                </pattern>
+              </defs>
+
+              <rect width="100%" height="100%" fill="url(#grid-pattern)" />
             </svg>
-            <defs>
-              <pattern
-                id="grid-pattern"
-                width="10"
-                height="10"
-                patternUnits="userSpaceOnUse"
-              >
-                <path
-                  d="M 10 0 L 0 0 0 10"
-                  fill="none"
-                  stroke="rgba(255,255,255,0.05)"
-                  strokeWidth="0.5"
-                />
-              </pattern>
-            </defs>
           </div>
+
           <div className="relative z-10">
             <h2 className="text-3xl font-bold mb-12 text-center text-white">
               Why Choose Our AI Content Generator?
@@ -153,7 +155,7 @@ export default function Home() {
               ))}
             </div>
           </div>
-        </div>
+        </div> {/* This is now properly closed */}
 
         {/* CTA Section */}
         <div className="text-center py-20 relative">
@@ -201,7 +203,8 @@ export default function Home() {
           )}
           <p className="mt-4 text-gray-400">No credit card required</p>
         </div>
-      </main>
-    </div>
+
+        </main> 
+        </div> 
   );
 }
