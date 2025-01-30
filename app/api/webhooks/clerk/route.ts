@@ -1,7 +1,6 @@
 import { Webhook } from 'svix'
 import { headers } from 'next/headers'
 import { WebhookEvent } from '@clerk/nextjs/server'
-import { create } from 'domain'
 import { createOrUpdateUser } from '@/utils/db/actions'
 
 export async function POST(req: Request) {
@@ -48,8 +47,6 @@ export async function POST(req: Request) {
   }
 
   // Do something with payload
-  // For this guide, log payload to console
-  const { id } = evt.data
   const eventType = evt.type
   if (eventType === "user.created" || eventType === "user.updated") {
     const { id, email_addresses, first_name, last_name } = evt.data;
@@ -67,8 +64,6 @@ export async function POST(req: Request) {
       }
     }
   }
-//   console.log(`Received webhook with ID ${id} and event type of ${eventType}`)
-//   console.log('Webhook payload:', body)
 
   return new Response('Webhook received', { status: 200 })
 }
